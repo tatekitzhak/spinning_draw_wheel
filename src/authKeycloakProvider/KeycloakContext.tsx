@@ -13,26 +13,29 @@ interface KeycloakProviderProps {
   children?: React.ReactNode;
 }
 
- const KeycloakProvider = ({ children }: KeycloakProviderProps) => {
+const KeycloakProvider = ({ children }: KeycloakProviderProps) => {
   const isInitialized = useRef(false);
-  
+
   const [keycloak, setKeycloak] = useState<Keycloak | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  console.log("KeycloakProvider1:", isInitialized)
+    console.log("KeycloakProvider1:", isInitialized)
     // Prevent double-init in React Strict Mode
     if (isInitialized.current) {
-        console.log("KeycloakProvider2:", isInitialized)
-        return;
+      console.log("KeycloakProvider2:", isInitialized)
+      return;
     }
     isInitialized.current = true;
 
     const KeycloakParams: KeycloakConfig = {
-      url: 'https://localhost:8443/',
-      realm: 'webapp',
-      clientId: 'public_client_webapp_id',
+      url: `https://${import.meta.env.VITE_DOMAIN_NAME}:${import.meta.env.VITE_PORT}/`,
+      realm: `${import.meta.env.VITE_REAL_NAME}`,
+      clientId: `${import.meta.env.VITE_CLIENT_ID}`,
+      // url: 'https://3.135.226.230:8443/',
+      // realm: 'ec2realm1',
+      // clientId: 'ec2_public_client_webapp_id',
     };
 
     const initOptions: KeycloakInitOptions = {

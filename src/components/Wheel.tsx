@@ -133,6 +133,7 @@ export default function Wheel({ entries, onWinner, isSpinning, setIsSpinning }: 
   }, [isSpinning]);
 
   useEffect(() => {
+    
     draw();
     return () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);

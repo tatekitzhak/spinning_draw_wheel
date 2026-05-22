@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Trophy, X, RotateCw, Settings2, Share2, Info, LogIn } from 'lucide-react';
 import LoginButton from '../LoginButton';
 
-import useKeycloak from '../../keycloakContext/useKeycloak';
+import useKeycloak from '../../authKeycloakProvider/useKeycloak';
 
 interface WelcomePgeProps {
   

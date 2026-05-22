@@ -44,7 +44,6 @@ docker-compose.override.yml
 .pnp.js
 
 .git
-README.md
 LICENSE
 .vscode
 Makefile

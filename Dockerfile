@@ -1,9 +1,18 @@
 FROM ubuntu/nginx
 
-RUN echo '++++++++ Hello Docker +++++ +++'
+EXPOSE 80 443
 
 COPY ./dist /var/www/html
+
 RUN apt update -y && \
     apt install vim -y && \
     apt install -y iputils-ping
-# COPY nginx.conf /etc/nginx/nginx.conf
+
+COPY ./nginx/config/default /etc/nginx/sites-available/
+
+COPY ./nginx/config/nginx.conf /etc/nginx/
+
+RUN mkdir -p /etc/nginx/ssl/prod
+
+COPY ./nginx/certs/prod* /etc/nginx/ssl/prod/
+

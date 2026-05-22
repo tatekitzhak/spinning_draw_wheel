@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'; 
 import axios from 'axios';
 
-import useKeycloak from '../keycloakContext/useKeycloak';
+import useKeycloak from '../authKeycloakProvider/useKeycloak';
 
 import { motion, AnimatePresence } from 'motion/react';
 import { Trophy, X, RotateCw, Settings2, Share2, Info, LogIn } from 'lucide-react';
@@ -27,7 +27,8 @@ export default function HomePage({ }: HomePageProps) {
     const [data, setData] = useState(null);
 
     const fetchData = async () => {
-        console.log("HomePage1:", keycloak)
+        
+        console.log("HomePage-keycloak1:", keycloak)
         if (!keycloak?.token) {
             console.log("HomePage2:", keycloak)
             return
@@ -111,13 +112,12 @@ export default function HomePage({ }: HomePageProps) {
                                 <button
                                     onClick={handleSpin}
                                     disabled={isSpinning || entries.length < 2}
-                                    className={`
-                group relative px-12 py-5 rounded-full text-2xl font-black uppercase tracking-widest transition-all
-                ${isSpinning || entries.length < 2
-                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                            : 'bg-black text-white hover:scale-105 active:scale-95 shadow-[0_20px_50px_rgba(0,0,0,0.2)] hover:shadow-[0_20px_70px_rgba(0,0,0,0.3)]'
-                                        }
-              `}
+                                    className={`group relative px-12 py-5 rounded-full text-2xl font-black uppercase tracking-widest transition-all
+                                                    ${isSpinning || entries.length < 2
+                                                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                        : 'bg-black text-white hover:scale-105 active:scale-95 shadow-[0_20px_50px_rgba(0,0,0,0.2)] hover:shadow-[0_20px_70px_rgba(0,0,0,0.3)]'
+                                                    } 
+                                                `}
                                 >
                                     <span className="relative z-10 flex items-center gap-3">
                                         {isSpinning ? 'Spinning...' : 'Spin Now'}
