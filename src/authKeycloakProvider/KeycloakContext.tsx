@@ -29,6 +29,8 @@ const KeycloakProvider = ({ children }: KeycloakProviderProps) => {
     }
     isInitialized.current = true;
 
+    console.log("local URL:",`https://${import.meta.env.VITE_DOMAIN_NAME}:${import.meta.env.VITE_PORT}/`)
+    
     const KeycloakParams: KeycloakConfig = {
       url: `https://${import.meta.env.VITE_DOMAIN_NAME}:${import.meta.env.VITE_PORT}/`,
       realm: `${import.meta.env.VITE_REAL_NAME}`,

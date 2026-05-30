@@ -38,8 +38,8 @@ server {
     server_name _;
 
     # ======================= Start of certificate configuration =======================
-    ssl_certificate     /etc/nginx/ssl/prod/prod.crt;
-    ssl_certificate_key /etc/nginx/ssl/prod/prod.key;
+    ssl_certificate     /etc/nginx/ssl/prod/localhost.crt;
+    ssl_certificate_key /etc/nginx/ssl/prod/localhost.key;
 
 	# Configure the SSL session cache to improve performance.
     ssl_session_cache shared:SSL:1m;

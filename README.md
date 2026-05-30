@@ -15,6 +15,16 @@
 
 # How to Configuration and Run the project on AWS EC2 server:
 
+# Keycloak Admin Console
+- Create realm
+- Create client - Login settings:
+1. Root URL: `https://localhost:4000` - The base URL of your application.
+2. Home URL: `https://localhost:4000`- Where the auth server redirects users if they click a "Back to Application" link.
+3. Valid redirect URIs: `https://localhost:4000/*` - Crucial. The specific paths where the auth server is allowed to send the login response. The wildcard * allows for various routes.
+4. Valid post logout redirect URIs: `https://localhost:4000/*` - Where the user is sent after logging out.
+5. Web origins: `https://localhost:4000` - This enables CORS. It allows your React app's domain to make JavaScript requests to the auth server.
+- Create user: 
+
 # Keycloak Server Admin
 1. Update docker-compose.yml file
 - KC_HOSTNAME_ADMIN_URL: https://[IP_ADDR_OR_DOMAIN_NAME]:8443
@@ -37,14 +47,19 @@ Web origins:
 ```
 
   Field,     Value,                    Description
-- Root URL: `http://localhost:5173` - The base URL of your application.
-- Home URL: `http://localhost:5173`- Where the auth server redirects users if they click a "Back to Application" link.
-- Valid redirect URIs: `http://localhost:5173/*` - Crucial. The specific paths where the auth server is allowed to send the login response. The wildcard * allows for various routes.
-- Valid post logout redirect URIs: `http://localhost:5173/*` - Where the user is sent after logging out.
-- Web origins: `http://localhost:5173` - This enables CORS. It allows your React app's domain to make JavaScript requests to the auth server.
+- Root URL: `https://localhost:4000` - The base URL of your application.
+- Home URL: `https://localhost:5173`- Where the auth server redirects users if they click a "Back to Application" link.
+- Valid redirect URIs: `https://localhost:5173/*` - Crucial. The specific paths where the auth server is allowed to send the login response. The wildcard * allows for various routes.
+- Valid post logout redirect URIs: `https://localhost:5173/*` - Where the user is sent after logging out.
+- Web origins: `https://localhost:5173` - This enables CORS. It allows your React app's domain to make JavaScript requests to the auth server.
 
 
 # FrontEnd - React
+*************************
+* Build React Artifacts *
+* FIRST RUN:            *
+* `npm run build`       *
+*************************
 1. Ensure a Dockerfile and Terraform is configured correctly
 2. Modify an .env file is compatible correctly against AWS EC2 server
 
@@ -58,8 +73,8 @@ Web origins:
 ```bash
 openssl req -x509 -out localhost.crt -keyout localhost.key \
   -newkey rsa:2048 -nodes -sha256 -days 365 \
-  -subj "/CN=18.219.237.91" -extensions EXT -config <( \
-   printf "[dn]\nCN=18.219.237.91\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=IP:18.219.237.91\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+  -subj "/CN=localhost" -extensions EXT -config <( \
+   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=IP:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 ```
 openssl req -x509 -out prod.crt -keyout prod.key \
   -newkey rsa:2048 -nodes -sha256 -days 365 \
@@ -109,7 +124,7 @@ clean docker:
 run docker:
 - sudo docker-compose up -d --remove-orphans
 - sudo docker ps
-- sudo docker exec ee3d31555276 curl -v http://localhost:8080
+- sudo docker exec ee3d31555276 curl -v https://localhost:8080
 
 docker util:
 

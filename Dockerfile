@@ -1,6 +1,7 @@
 FROM ubuntu/nginx
 
 EXPOSE 80 443
+WORKDIR /app
 
 COPY ./dist /var/www/html
 
@@ -14,5 +15,5 @@ COPY ./nginx/config/nginx.conf /etc/nginx/
 
 RUN mkdir -p /etc/nginx/ssl/prod
 
-COPY ./nginx/certs/prod* /etc/nginx/ssl/prod/
+COPY ./nginx/certs/localhost.* /etc/nginx/ssl/prod/
 
