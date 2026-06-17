@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=4000 --host=0.0.0.0",
-    "build": "vite build",
+    "dev": "VITE_DEPLOY_ENV=development vite --port=4000 --host=0.0.0.0",
+    "prod": "vite --port=4000 --host=0.0.0.0",
+    "build": "rm -rf dist && vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"

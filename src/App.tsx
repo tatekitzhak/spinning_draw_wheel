@@ -1,22 +1,19 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { KeycloakProvider } from './authKeycloakProvider/KeycloakContext';
-
+import ExpressDataFetcherAPI from './pages/ExpressDataFetcherAPI'
 import Layout from './components/Layout/Layout';
 import ErrorBoundary from './authKeycloakProvider/ErrorBoundary';
 
-interface HealthCheckPgeProps {
-  HealthCheck: string[];
-  setHealthCheck?: (healthCheck: string[]) => void;
-  
-}
 
-const HealthCheckPge = ({HealthCheck, setHealthCheck}: HealthCheckPgeProps) => {
+const HealthCheckPge = () => {
   return (
     <>
       status: 200
       <br />
       environment: 
     </>
+
+    
   )
 }
 
@@ -35,11 +32,8 @@ function App() {
                 </Layout>
               }
             />
-            <Route path="/react_health" 
-                  element={<HealthCheckPge HealthCheck={[]}
-                                        
-                                        />} 
-            />
+            <Route path="/react_health" element={ <HealthCheckPge /> } />
+            <Route path="/express_api" element={ <ExpressDataFetcherAPI /> } />
 
           </Routes>
 

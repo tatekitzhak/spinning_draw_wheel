@@ -1,4 +1,4 @@
- terraform {
+terraform {
   required_providers {
     docker = {
       source  = "kreuzwerker/docker"
@@ -11,7 +11,7 @@ provider "docker" {
   # For Linux/macOS, use unix socket. For Windows, use npipe:////./pipe/docker_engine
   host = "unix:///var/run/docker.sock"
 
-   registry_auth {
+  registry_auth {
     # address  = "registry.hub.docker.com"
     address  = "registry-1.docker.io"
     username = var.docker_hub_username
@@ -21,22 +21,22 @@ provider "docker" {
 
 # 1. Define the Docker Image to build
 resource "docker_image" "webapp" {
-  
+
   # Prefixing the name with your username is required for Docker Hub
   # name = "${var.docker_hub_username}/tr-kc-spindraw-image:v1"
   name = "registry-1.docker.io/${var.docker_hub_username}/tr-kc-spindraw-img:v1"
   build {
-    context = "../" # Look in the current directory for the Dockerfile
+    context    = "../" # Look in the current directory for the Dockerfile
     dockerfile = "Dockerfile"
   }
-  
+
 }
 
 # 2. Create the Docker Container
 resource "docker_container" "web_server" {
   name  = "tr-kc-spindraw-container"
   image = docker_image.webapp.image_id
-  
+
   ports {
     internal = 443
     external = 4000 # This maps http://localhost:4000 to the container
@@ -50,13 +50,13 @@ resource "docker_container" "web_server" {
     timeout  = "10s"
     retries  = 3
   }
-} 
+}
 
 resource "docker_registry_image" "push_to_hub" {
   name = docker_image.webapp.name
-  
+
   # Ensure the image is built before attempting to push
-  keep_remotely = true 
+  keep_remotely = true
 }
 
 variable "docker_hub_username" {

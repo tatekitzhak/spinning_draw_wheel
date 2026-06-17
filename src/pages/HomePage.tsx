@@ -4,7 +4,7 @@ import axios from 'axios';
 import useKeycloak from '../authKeycloakProvider/useKeycloak';
 
 import { motion, AnimatePresence } from 'motion/react';
-import { Trophy, X, RotateCw, Settings2, Share2, Info, LogIn } from 'lucide-react';
+import { Trophy, X, Info } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Wheel from '../components/Wheel';
 import EntryList from '../components/EntryList';
@@ -21,25 +21,40 @@ export default function HomePage({ }: HomePageProps) {
     const [entries, setEntries] = useState<string[]>(INITIAL_ENTRIES);
     const [isSpinning, setIsSpinning] = useState(false);
     const [winner, setWinner] = useState<string | null>(null);
-    const [showSettings, setShowSettings] = useState(false);
 
     const { keycloak, authenticated } = useKeycloak();
     const [data, setData] = useState(null);
-
+    const deploy_env = import.meta.env.VITE_DEPLOY_ENV;
+    console.log("HomePage deploy_env:", deploy_env)
+    
     const fetchData = async () => {
         
-        console.log("HomePage-keycloak1:", keycloak)
+        
         if (!keycloak?.token) {
             console.log("HomePage2:", keycloak)
             return
         };
 
         try {
+            let API_URL_PREFIX = 'https';
+            let port = '';
+
+            if(deploy_env == 'development'){
+                API_URL_PREFIX = 'http';
+                port = ':'+3000;
+            }
+            const URL = (deploy_env == 'development') ? 
+                        `${API_URL_PREFIX}://localhost${port}/keycloak/protected`:
+                        'https://localhost/keycloak/protected';
+
+            console.log("HomePage keycloak:", keycloak)
+            console.log("HomePage API_URL_PREFIX:", API_URL_PREFIX)
+
             // 1. Ensure token is fresh
             await keycloak.updateToken(30);
 
             // 2. Make the Axios request
-            const response = await axios.get('http://localhost:3000/keycloak/protected', {
+            const response = await axios.get(URL, {
                 headers: {
                     Authorization: `Bearer ${keycloak.token}`,
                     'Content-Type': 'application/json',
