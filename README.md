@@ -80,24 +80,24 @@ Web origins:
 2. Modify an .env file is compatible correctly against AWS EC2 server
 
 3. Nginx 
-- Go to directory: `/nginx/config/default `
+- Go to directory: `/nginx/config/default`
 - server_name [IP_ADDR_OR_DOMAIN_NAME]; 
 
-3. SSL
+4. SSL
 - Go to directory: `/nginx/certs/` and run:
 
 ```bash
 ***** FOR LOCALHOST ****
 openssl req -x509 -out localhost.crt -keyout localhost.key \
   -newkey rsa:2048 -nodes -sha256 -days 365 \
-  -subj "/CN=localhost" -extensions EXT -config <( \
-   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=IP:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+  -subj "/CN=18.223.255.165" -extensions EXT -config <( \
+   printf "[dn]\nCN=18.223.255.165\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=IP:18.223.255.165\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 
 ***** FOR PROD ****
 openssl req -x509 -out prod.crt -keyout prod.key \
   -newkey rsa:2048 -nodes -sha256 -days 365 \
-  -subj "/CN=18.224.5.50" -extensions EXT -config <( \
-   printf "[dn]\nCN=18.224.5.50\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=IP:18.224.5.50\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+  -subj "/CN=3.23.113.237" -extensions EXT -config <( \
+   printf "[dn]\nCN=3.23.113.237\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=IP:3.23.113.237\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
   ```
 
 4. npm artifacts
@@ -129,6 +129,7 @@ ranitzahak/tr-kc-spindraw-img:v1
 ```
 
 - To list the running container: `docker ps` 
+- Navigated to `https://[IP-Address-or-Domain-Name]:4000/`
 
 
 ## Keycloak handles : Single Sign On
@@ -179,3 +180,13 @@ http://localhost:3000/#error=login_required&state=e29fb1f7-72d2-4685-a5c8-ec7d8f
 - rm -rf node_modules
 - rm -rf package-lock.json
 - npm cache verify
+
+
+ERROR:
+
+vendor-tJYGX_wu.js:70 
+ GET https://18.223.255.165/keycloak/protected 401 (Unauthorized)
+
+index-BwQ2shQi.js:2 Failed to fetch data: AxiosError: Request failed with status code 401
+    at zb (vendor-tJYGX_wu.js:70:1087)
+    at XMLHttpRequest.D (vendor-tJYGX_wu.js:70:5927)

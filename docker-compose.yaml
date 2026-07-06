@@ -5,10 +5,10 @@ services:
     container_name: keycloak-spindraw
     build:
       context: .
+      dockerfile: Dockerfile.frontend
     image: "kc-spindraw-nginx-img:v1.0"
     # command: ["./wait-for-it.sh","--", "sh", "change_admin_passwd.sh"]
     ports:
-      # - "4000:80"
       - "4000:443"
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "<http://localhost:4000/health>"]

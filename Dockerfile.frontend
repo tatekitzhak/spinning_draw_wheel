@@ -10,10 +10,8 @@ RUN apt update -y && \
     apt install -y iputils-ping
 
 COPY ./nginx/config/default /etc/nginx/sites-available/
-
 COPY ./nginx/config/nginx.conf /etc/nginx/
 
 RUN mkdir -p /etc/nginx/ssl/prod
-
 COPY ./nginx/certs/localhost.* /etc/nginx/ssl/prod/
 

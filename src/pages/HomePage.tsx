@@ -24,8 +24,9 @@ export default function HomePage({ }: HomePageProps) {
 
     const { keycloak, authenticated } = useKeycloak();
     const [data, setData] = useState(null);
+
     const deploy_env = import.meta.env.VITE_DEPLOY_ENV;
-    console.log("HomePage deploy_env:", deploy_env)
+    const API_BACKEND_ENDPOINT = import.meta.env.VITE_API_BACKEND_ENDPOINT;
     
     const fetchData = async () => {
         
@@ -43,18 +44,16 @@ export default function HomePage({ }: HomePageProps) {
                 API_URL_PREFIX = 'http';
                 port = ':'+3000;
             }
-            const URL = (deploy_env == 'development') ? 
-                        `${API_URL_PREFIX}://localhost${port}/keycloak/protected`:
-                        'https://localhost/keycloak/protected';
+            const KEYCLOAK_PROTECTED_URL = `https://${API_BACKEND_ENDPOINT}/keycloak/protected`;
 
             console.log("HomePage keycloak:", keycloak)
-            console.log("HomePage API_URL_PREFIX:", API_URL_PREFIX)
+            console.log("HomePage KEYCLOAK_PROTECTED_URL:", KEYCLOAK_PROTECTED_URL)
 
             // 1. Ensure token is fresh
             await keycloak.updateToken(30);
 
             // 2. Make the Axios request
-            const response = await axios.get(URL, {
+            const response = await axios.get( KEYCLOAK_PROTECTED_URL, {
                 headers: {
                     Authorization: `Bearer ${keycloak.token}`,
                     'Content-Type': 'application/json',

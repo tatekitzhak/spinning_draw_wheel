@@ -21,18 +21,14 @@ const KeycloakProvider = ({ children }: KeycloakProviderProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const deploy_env = import.meta.env.VITE_DEPLOY_ENV;
-    const DOMAIN_NAME = import.meta.env.VITE_DOMAIN_NAME;
-    const PORT = import.meta.env.VITE_PORT;
+    const API_BACKEND_ENDPOINT = import.meta.env.VITE_API_BACKEND_ENDPOINT;
+    const KC_PORT = import.meta.env.VITE_KC_PORT;
+    const keycloakClientId = import.meta.env.VITE_HTTPS_CLIENT_ID;
 
-    const keycloakClientId = (deploy_env == 'development') ? 
-                              import.meta.env.VITE_HTTP_CLIENT_ID : 
-                              import.meta.env.VITE_HTTPS_CLIENT_ID;
+    const KEYCLOAK_URL = `https://${API_BACKEND_ENDPOINT}:${KC_PORT}/`;
 
-    const URL = `https://${DOMAIN_NAME}:${PORT}/`;
-
-    console.log("deploy_env:", deploy_env)
-    console.log("local URL:",URL)
+    console.log("Keycloak ClientId:", keycloakClientId)
+    console.log("KEYCLOAK_URL:", KEYCLOAK_URL)
     console.log("KeycloakProvider1:", isInitialized)
     // Prevent double-init in React Strict Mode
     if (isInitialized.current) {
@@ -44,7 +40,7 @@ const KeycloakProvider = ({ children }: KeycloakProviderProps) => {
    
 
     const KeycloakParams: KeycloakConfig = {
-      url: URL,
+      url: KEYCLOAK_URL,
       realm: `${import.meta.env.VITE_REAL_NAME}`,
       clientId: keycloakClientId,
       // url: 'https://3.135.226.230:8443/',
